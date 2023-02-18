@@ -1,0 +1,175 @@
+<!DOCTYPE html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍌🥜 - gist</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="animation.css">
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
+    <style>
+
+        #gist {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .topic {
+            width: 60%;
+        }
+
+        .topic-right {
+            align-self: flex-end;
+        }
+
+        .topic img {
+            width: 100%;
+        }
+
+        #share-btn {
+            width: 30%;
+            margin-left: 60%;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        #post-response {
+            width: 80%;
+            margin-left: 20%;
+        }
+
+        #post-response p {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 0;
+            box-shadow: -4px 4px rgba(0,0,0,0.9);
+        }
+
+        #post-response .arrow-right {
+            margin-top: 1rem !important
+        }
+
+        #final-chat-container {
+            flex-direction: column;
+        }
+
+    </style>
+</head>
+<body>
+    <main class="section content">
+        <a href="/" class="align-center">Back home</a>
+        <header>
+            <h2 id="header-title"></h2>
+            <div id="chat-container" class="chat-container">
+                <img src="/images/avatar3.png" width="75px" />
+                <div style="display: flex" class="chat-slide-left">
+                    <div class="arrow-left"></div>
+                    <p id="header-text" class="chat"></p>
+                </div>
+            </div>
+        </header>
+        
+        <div id="gist">
+        </div>
+
+        <div id="chat-container" class="chat-container slide-left no-slide-mobile">
+            <img src="/images/avatar3.png" width="100px" />
+            <div style="display: flex">
+                <div class="arrow-left"></div>
+                <p id="question-prompt" class="chat no-ellipsis"></p>
+            </div>
+        </div>
+
+        <form id="chat-input" style="width: 100%">
+            <div style="display: flex">
+                <input type="textarea" id="enter-response" class="chat-input" name="response" placeholder="type here..." />
+                <div class="arrow-right"></div>
+            </div>
+            <button type="submit" class="green" id="share-btn">Share</button>
+        </form>
+
+        <div id="post-response" class="hide slide-right no-slide-mobile">
+            <p id="chat-response" class="chat no-ellipsis"></p>
+            <div class="arrow-right"></div>
+        </div>
+
+        <div id="final-chat-container" class="hide">
+            <div class="chat-container slide-left no-slide-mobile">
+                <img src="/images/avatar3.png" width="100px" />
+                <div style="display: flex">
+                    <div class="arrow-left"></div>
+                    <p id="final-chat-response" class="chat no-ellipsis"></p>
+                </div>
+            </div>
+
+            <div>
+                <a href="/#gist-topics">
+                    <button class="large green">Let's talk about something else</button>
+                </a>
+                <a href="/bye.html">
+                    <button class="large green">It's been fun hanging!</button>
+                </a>
+            </div>
+        </div>
+
+    </main>
+    <script>
+        const path = window.location.hash.slice(1)
+        
+        const dataSrc = urlParams[path]
+        
+        document.getElementById('header-title').innerText = dataSrc.heading
+        document.getElementById('header-text').innerText = dataSrc.headerText
+        document.getElementById('question-prompt').innerText = dataSrc.questionPrompt
+        const form = document.getElementById('chat-input')
+        form.name = dataSrc.heading
+        const response = document.getElementById('enter-response')
+
+        const updateFunction = {
+            'highlights': updateHighlights,
+            'connections-exchanges': updateConnectionsExchanges,
+            'kerfuffles': updateKerfuffles,
+            'vision': updateVision
+        }
+
+        form.onsubmit = (e) => {
+            e.preventDefault()
+
+            document.getElementById('chat-response').innerText = response.value
+            document.getElementById('post-response').style.display = 'flex';
+            document.getElementById('chat-input').style.display = 'none';
+
+            setTimeout(() => {
+                document.getElementById('final-chat-container').style.display = 'flex';
+                document.getElementById('final-chat-response').innerText = dataSrc.finalChatResponse
+
+                window.scrollTo(0, document.body.scrollHeight);
+            }, 1000);
+
+            // update the value in db using the function passed to updateFunction array for this page
+            updateFunction[path](response.value)
+        }
+
+
+        dataSrc.content.forEach((topic, index) => {
+            const animation = index % 2 === 0 ? 'slide-left topic-left' : 'slide-right topic-right'
+            const topicDiv = document.createElement("div")
+            topicDiv.className = `topic ${animation}`
+
+            const topicImg = document.createElement("img")
+            topicImg.src = `/images/projects/${topic.image}`
+            topicDiv.appendChild(topicImg)
+
+            const topicText = document.createElement('p')
+            topicText.innerHTML = topic.text
+            topicDiv.appendChild(topicText)
+
+            const gist = document.getElementById('gist')
+            gist.appendChild(topicDiv)
+        });
+    </script>
+</body>
+</html>

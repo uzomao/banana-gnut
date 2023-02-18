@@ -1,0 +1,195 @@
+<!DOCTYPE html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍌 🥜 with uzoma</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="animation.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
+    <style>
+        .page-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: -1rem;
+        }
+
+        .page-links a {
+            width: 45%
+        }
+
+        .page-links div {
+            height: 200px;
+            width: 100%;
+            margin: 1rem 0;
+            background-size: cover;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-blend-mode: darken;
+            box-shadow: 4px 4px rgba(0,0,0,0.6);
+        }
+
+        .page-links div h4 {
+            color: #fff;
+        }
+
+        .page-links div:hover {
+            box-shadow: 8px 8px rgba(0,0,0,0.6);
+            transform: translate(-5px, -5px);
+        }
+
+        form div .chat-input {
+            height: unset;
+
+        }
+
+        form {
+            align-items: center;
+        }
+
+        .chat-input-container {
+            width: 80%
+        }
+
+        @media only screen and (max-width: 768px) {
+            .page-links {
+                flex-direction: column;
+                flex-wrap: nowrap !important;
+            }
+
+            .page-links a {
+                width: 80%;
+                margin-left: 10%
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="content">
+        <h2>Come, let's eat banana and groundnut and talk about the past year</h2>
+
+        <figure class="align-center">
+            <img src="/images/home.jpg" style="width: 100%; border-radius: 10px;" />
+            <figcaption style="color: #333; font-size: 12px;">young man happily enjoys his favourite snack</figcaption>
+        </figure>
+
+        <div class="chat-session" id="chat-session">
+            <div id="chat-container" class="chat-container">
+                <img src="/images/avatar3.png" width="100px" />
+                <div style="display: flex">
+                    <div class="arrow-left"></div>
+                    <p id="chat" class="chat"></p>
+                </div>
+            </div>
+
+            <div id="gist-topics" class="page-links">
+                <a href="/gist.html#highlights">
+                    <div style="background-image: url('/images/wins.jpg');">
+                        <h4>creative highlights</h4>
+                    </div>
+                </a>
+                <a href="/gist.html#connections-exchanges">
+                    <div style="background-image: url('/images/travel.jpg');">
+                        <h4>connections and exchanges</h4>
+                    </div>
+                </a>
+                <a href="/gist.html#kerfuffles">
+                    <div style="background-image: url('/images/kerfuffles.gif');">
+                        <h4>creative kerfuffles</h4>
+                    </div>
+                </a>
+                <a href="/gist.html#vision">
+                    <div style="background-image: url('/images/2023.jpg');">
+                        <h4>vision 2023</h4>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="enter-name" id="enter-name">
+            <p>Before we get started, can you let me know your name and email?</p>
+            <form id="name-form" style="width: 100%">
+                <div class="chat-input-container">
+                    <input type="text" id="visitor_name" class="chat-input" name="visitor_name" placeholder="name..." />
+                    <div class="arrow-right"></div>
+                </div>
+                <div class="chat-input-container">
+                    <input type="email" id="visitor_email" class="chat-input" name="visitor_email" placeholder="email, optional but your info is safe with me..." />
+                    <div class="arrow-right"></div>
+                </div>
+                <button type="submit" class="green" id="share-btn">ok</button>
+            </form>
+        </div>
+
+        <script>
+            const visitorName = localStorage.getItem('visitorName')
+
+            const handleChat = (visitorName) => {
+
+                const chats = [
+                    `Ayye ${visitorName}, thanks for coming through. It's good to see you`,
+                    "I wanted to share my 2022 highlights with you and also hear what you've been up to",
+                    "And I thought we'd munch on God's own snack combo while we talk",
+                    "Let's get into it shall we? What would you like to talk about first?"
+                ]
+
+                const chatDiv = document.getElementById('chat')
+                const insertFirstChat = () => chatDiv.innerText = chats[0]
+                insertFirstChat()
+
+                let i = 1  
+                let delay = 3000
+                const setDelay = (param) => {
+                    delay = param
+                }
+
+                setInterval(() => {
+                    if(i < chats.length) {
+                        // not the best way but the easiest to get animation working
+                        const chat = `<img src="/images/avatar3.png" width="100px" /><div class='chat-slide-left' style="display: flex">
+                            <div class='arrow-left'></div>
+                            <p id='chat' class='chat'>${chats[i]}</p></div>`
+                        document.getElementById('chat-container').innerHTML = chat
+                        i += 1
+                    } else {
+                        insertFirstChat()
+                        i = 1
+                    }
+                }, delay)
+
+            }
+
+            if(!visitorName){
+                document.getElementById('chat-session').style.display = 'none'
+            } else {
+                document.getElementById('enter-name').style.display = 'none'
+                handleChat(visitorName)
+            }
+
+            const form = document.getElementById('name-form')
+
+            form.onsubmit = (e) => {
+                e.preventDefault()
+
+                const name = document.getElementById('visitor_name').value
+                const email = document.getElementById('visitor_email').value
+                submitVisitorInfo(name, email)
+                name.value = ''
+                email.value = ''
+                
+                localStorage.setItem('visitorName', name)
+
+                document.getElementById('enter-name').style.display = 'none'
+                document.getElementById('chat-session').style.display = 'block'
+
+                handleChat(name)
+            }
+
+        </script>
+    </main>
+</body>
+</html>

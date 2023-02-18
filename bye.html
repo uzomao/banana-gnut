@@ -1,0 +1,110 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍌 🥜 - bye</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="animation.css">
+    <style>
+        .stay-connected-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .stay-connected-buttons a, .stay-connected-buttons div {
+            width: 45%;
+        }
+
+        .stay-connected-buttons div {
+            margin: 0
+        }
+
+        .stay-connected-buttons button {
+            width: 100%;
+            margin: 1rem;
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        #buy {
+            display: none;
+            width: 100%;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .stay-connected-buttons {
+                flex-wrap: nowrap;
+                flex-direction: column;
+            }
+
+            .stay-connected-buttons a, .stay-connected-buttons div {
+                width: 100%
+            }
+
+            .stay-connected-buttons button {
+                margin: 1rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="content">
+        <a href="/" class="align-center">Back home</a> class="align-center"
+        <h2>Take care 👋🏾</h2>
+
+        <figure>
+            <img src="/images/bye.jpg" style="width: 75%; border-radius: 10px;" />
+            <!-- <figcaption style="color: #333; font-size: 12px;">young man happily enjoys his favourite snack</figcaption> -->
+        </figure>
+
+        <div id="chat-container" class="chat-container">
+            <img src="/images/avatar3.png" width="100px" />
+            <div style="display: flex">
+                <div class="arrow-left"></div>
+                <p id="chat" class="chat">
+                    Thanks for stopping by, I look forward to hanging out more in 2023!
+                </p>
+            </div>
+        </div>
+
+        <p class="align-center">
+            This year I'm looking forward to sharing more and spending more time with community, virtually and IRL.
+            You can use any of the buttons below to stay connected however you like.
+        </p>
+
+        <div class="stay-connected-buttons">
+            <a href="https://uzomaorji.us4.list-manage.com/subscribe?u=df5e3712b4a19394281f8cfba&id=2d3f479456" target="_blank" rel="noopener noreferrer">
+                <button class="cocoa">Receive my email updates</button>
+            </a>
+            <a href="https://instagram.com/uzzzoma" target="_blank" rel="noopener noreferrer">
+                <button class="cocoa">Follow me on Instant Grams</button>
+            </a>
+            <a href="https://instagram.com/uzoma.studio" target="_blank" rel="noopener noreferrer">
+                <button class="cocoa">Follow uzoma.studio</button>
+            </a>
+            <div>
+                <button class="cocoa" onclick="document.getElementById('buy').style.display = 'block'">
+                    Buy me banana and groundnut
+                </button>
+                <div class="align-center" id="buy">
+                    <p>🇳🇬 0132125324 GTBank</p>
+                    <p>🌏 <a href="https://monzo.me/chidumagauzomaorji" target="_blank" rel="noopener noreferrer">monzo.me/chidumagauzomaorji</a></p>
+                    <p>Thank you 🌞</p>
+                </div>
+            </div>
+        </div>
+
+        <p class="align-center">And if you enjoyed this interactive newsletter and would like to make something like it or better, I'd love to assist. Please <a href="mailto:chidumaga@gmail.com">get in touch</a>.</p>
+
+        <p class="align-center">Wishing you ease and joy all year ☀️</p>
+
+        <footer style="margin-top: 1rem; color: #27ae60">
+            <small>&copy; big dream energy 2023</small>
+        </footer>
+    </main>
+</body>
+</html>
